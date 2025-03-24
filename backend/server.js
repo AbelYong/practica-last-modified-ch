@@ -52,12 +52,16 @@ app.get('/data', (req, res) => {
     }
 });
 
-/**
- * Inicia el servidor y yo sigo sin saber que copiarle :c
- * 
- * 
- *
- */
+app.get('/pokemon', (req, res) => {
+    const pokemon = {
+        nombre: "pikachu",
+        tipo: "electrico",
+        poder: "rayos"
+    };
+
+    res.json(pokemon);
+});
+
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
