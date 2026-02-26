@@ -1,3 +1,4 @@
+
 const hostname = "localhost";
 /**
  * Agregamos el evento click al botón fetchData del documento HTML
