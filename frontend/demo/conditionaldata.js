@@ -1,24 +1,19 @@
 
-const hostname = "localhost";
-/**
- * Agregamos el evento click al botón fetchData del documento HTML
- */
+const urlBase = "localhost:3000";
+
 document.getElementById('fetchData').addEventListener('click', ()=> {
     const etag = localStorage.getItem('etag');
     
-    fetch(`http://${hostname}:3000/data`, {
+    fetch(`http://${urlBase}/data`, {
         method: 'GET',
         headers: etag ? { 'If-None-Match': etag } : {}
     })
     .then(response => {
         if (response.status === 304) {
-            // Los datos no han cambiado
             console.log('Data is cached, not modified.');
             return Promise.resolve(null);
         } else {
-            // Los datos han cambiado o es la primera vez
             return response.json().then(data => {
-                // Guardar el nuevo ETag
                 const newEtag = response.headers.get('ETag');
                 if (newEtag) {
                     localStorage.setItem('etag', newEtag);
@@ -30,7 +25,6 @@ document.getElementById('fetchData').addEventListener('click', ()=> {
     })
     .then(data => {
         if (data) {
-            // Mostrar los datos actualizados
             const dataContainer = document.getElementById('dataContainer');
             dataContainer.innerHTML = `
                 <p>${data.message}</p>
