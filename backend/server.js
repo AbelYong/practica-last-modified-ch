@@ -30,6 +30,34 @@ app.get('/data', (req, res) => {
     }
 });
 
-    app.listen(port, () => {
+const products = {
+        catalogue :
+        [
+            {
+                Nombre : "Lavatrastes Salvo",
+                Precio : "38.99"
+            },
+            {
+                Nombre : "Sopa Moderna",
+                Precio : "12.00"
+            },
+            {
+                Nombre : "Si",
+                Precio : "38.99"
+            }
+        ],
+        lastModified : Date.now()
+    };
+
+app.get('/products', (req, res) => {
+    if (req.headers['last-modified-since'] === products.lastModified) {
+        res.status(304).end();
+    } else {
+        res.setHeader('Last-Modified', products.lastModified);
+        res.json(products);
+    }
+});
+
+app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
